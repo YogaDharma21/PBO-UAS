@@ -1,5 +1,8 @@
+import ProjectInterface.InterfaceProject;
+
 public class App {
     public static void main(String[] args) throws Exception {
-        System.out.println("Hello, World!");
+        InterfaceProject interfaceProject = new InterfaceProject();
+        interfaceProject.InterfaceUtama();
     }
 }
