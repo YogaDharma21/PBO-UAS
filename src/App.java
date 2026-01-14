@@ -1,8 +1,8 @@
-import ProjectInterface.InterfaceProject;
+import ProjectInterface.LoginFrame;
 
 public class App {
     public static void main(String[] args) throws Exception {
-        InterfaceProject interfaceProject = new InterfaceProject();
-        interfaceProject.InterfaceUtama();
+        LoginFrame loginFrame = new LoginFrame();
+        loginFrame.setVisible(true);
     }
 }
