@@ -53,8 +53,8 @@ public class LoginFrame extends JFrame {
     }
 
     private void handleLogin() {
-        InterfaceProject interfaceProject = new InterfaceProject();
-        interfaceProject.InterfaceUtama();
+        LibraryFrame libraryFrame = new LibraryFrame();
+        libraryFrame.showFrame();
         dispose();
     }
 }

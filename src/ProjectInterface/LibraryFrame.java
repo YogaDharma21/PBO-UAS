@@ -4,11 +4,11 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
-public class InterfaceProject {
+public class LibraryFrame {
     private CardLayout cardLayout;
     private JPanel panelCenter;
 
-    private JPanel tampilanAtasButton(Dimension screen) {
+    private JPanel createTopButtonPanel(Dimension screen) {
         JPanel jPanel = new JPanel();
         jPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -50,7 +50,7 @@ public class InterfaceProject {
         return jPanel;
     }
 
-    private JPanel booksCenter(Dimension screen) {
+    private JPanel createBooksPanel(Dimension screen) {
         JPanel jPanel = new JPanel();
         jPanel.setBackground(new Color(234, 239, 143));
         jPanel.setLayout(new BorderLayout());
@@ -70,7 +70,7 @@ public class InterfaceProject {
         return jPanel;
     }
 
-    private JPanel loansCenter(Dimension screen) {
+    private JPanel createLoansPanel(Dimension screen) {
         JPanel jPanel = new JPanel();
         jPanel.setBackground(new Color(242, 239, 232));
         jPanel.setLayout(new BorderLayout());
@@ -90,7 +90,7 @@ public class InterfaceProject {
         return jPanel;
     }
 
-    private JPanel visitorsCenter(Dimension screen) {
+    private JPanel createVisitorsPanel(Dimension screen) {
         JPanel jPanel = new JPanel();
         jPanel.setBackground(new Color(230, 240, 250));
         jPanel.setLayout(new BorderLayout());
@@ -110,7 +110,7 @@ public class InterfaceProject {
         return jPanel;
     }
 
-    public void InterfaceUtama() {
+    public void showFrame() {
         JFrame jF = new JFrame("Library Management System");
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         jF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -118,17 +118,17 @@ public class InterfaceProject {
         jF.setLayout(new BorderLayout(5, 5));
         ((JComponent) jF.getContentPane()).setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
-        jF.add(centerFill(screen), BorderLayout.CENTER);
-        jF.add(tampilanAtasButton(screen), BorderLayout.NORTH);
+        jF.add(createCenterPanel(screen), BorderLayout.CENTER);
+        jF.add(createTopButtonPanel(screen), BorderLayout.NORTH);
         jF.setVisible(true);
     }
 
-    private JPanel centerFill(Dimension screen) {
+    private JPanel createCenterPanel(Dimension screen) {
         cardLayout = new CardLayout();
         panelCenter = new JPanel(cardLayout);
-        panelCenter.add(booksCenter(screen), "Books");
-        panelCenter.add(loansCenter(screen), "Loans");
-        panelCenter.add(visitorsCenter(screen), "Visitors");
+        panelCenter.add(createBooksPanel(screen), "Books");
+        panelCenter.add(createLoansPanel(screen), "Loans");
+        panelCenter.add(createVisitorsPanel(screen), "Visitors");
         return panelCenter;
     }
 }
