@@ -2,269 +2,116 @@ package ProjectInterface;
 
 import java.awt.*;
 import java.awt.event.*;
-import java.util.ArrayList;
 import javax.swing.*;
-import javax.swing.table.*;
-import DataModel.DataMahasiswa;
-import MaintainDataPackage.MaintainDatabase;
 
 public class InterfaceProject {
     private CardLayout cardLayout;
     private JPanel panelCenter;
-    private MaintainDatabase mDB = new MaintainDatabase();
 
-    private JTextField jTextFieldNim, jTextFieldNama, jTextFieldUmur;
-    private DefaultTableModel dmTableModel;
-    private JButton btSubmit;
-    private JLabel labelJudulForm;
-    private boolean isEditMode = false;
-
-    private JPanel tampilanSampingButton(Dimension screen) {
+    private JPanel tampilanAtasButton(Dimension screen) {
         JPanel jPanel = new JPanel();
-        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
+        jPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 10, 10));
         jPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
-        jPanel.setPreferredSize(new Dimension((int) (screen.width * 0.15), 0));
+        jPanel.setPreferredSize(new Dimension(0, (int) (screen.height * 0.08)));
 
-        JButton btInputData = new JButton("Input Data");
-        btInputData.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btInputData.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-        btInputData.addMouseListener(new MouseAdapter() {
+        JButton btInputBooks = new JButton(" Books");
+        btInputBooks.setPreferredSize(new Dimension(150, 50));
+        btInputBooks.setFont(new Font("Arial", Font.BOLD, 16));
+        btInputBooks.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                prepareInsertMode();
-                cardLayout.show(panelCenter, "Input");
+                cardLayout.show(panelCenter, "Books");
             }
         });
 
-        JButton btViewData = new JButton("View Data");
-        btViewData.setAlignmentX(Component.LEFT_ALIGNMENT);
-        btViewData.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-        btViewData.addMouseListener(new MouseAdapter() {
+        JButton btLoans = new JButton("Loans");
+        btLoans.setPreferredSize(new Dimension(150, 50));
+        btLoans.setFont(new Font("Arial", Font.BOLD, 16));
+        btLoans.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                refreshTableData();
-                cardLayout.show(panelCenter, "View");
+                cardLayout.show(panelCenter, "Loans");
             }
         });
 
-        jPanel.add(btInputData);
-        jPanel.add(Box.createVerticalStrut(5));
-        jPanel.add(btViewData);
+        JButton btVisitors = new JButton("Visitors");
+        btVisitors.setPreferredSize(new Dimension(150, 50));
+        btVisitors.setFont(new Font("Arial", Font.BOLD, 16));
+        btVisitors.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                cardLayout.show(panelCenter, "Visitors");
+            }
+        });
+
+        jPanel.add(btInputBooks);
+        jPanel.add(btLoans);
+        jPanel.add(btVisitors);
         return jPanel;
     }
 
-    private JPanel inputCenter(Dimension screen) {
+    private JPanel booksCenter(Dimension screen) {
         JPanel jPanel = new JPanel();
         jPanel.setBackground(new Color(234, 239, 143));
-        jPanel.setBorder(BorderFactory.createEmptyBorder(100, 80, 200, 200));
-        jPanel.setLayout(new BoxLayout(jPanel, BoxLayout.Y_AXIS));
-        Font fntLabel = new Font("Arial", Font.BOLD, 28);
+        jPanel.setLayout(new BorderLayout());
+        jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 
-        labelJudulForm = new JLabel("INPUT DATA MAHASISWA");
-        labelJudulForm.setFont(new Font("Arial", Font.BOLD, 32));
-        labelJudulForm.setAlignmentX(Component.LEFT_ALIGNMENT);
+        JLabel labelTitle = new JLabel("BOOKS MANAGEMENT", SwingConstants.CENTER);
+        labelTitle.setFont(new Font("Arial", Font.BOLD, 36));
+        labelTitle.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JLabel jLabelNim = new JLabel("Nim Mahasiswa : ");
-        JLabel jLabelNama = new JLabel("Nama Mahasiswa : ");
-        JLabel jLabelUmur = new JLabel("Umur Mahasiswa : ");
+        JLabel labelInfo = new JLabel("This is the Books Management page. You can input and manage books here.",
+                SwingConstants.CENTER);
+        labelInfo.setFont(new Font("Arial", Font.PLAIN, 20));
+        labelInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        jTextFieldNim = new JTextField();
-        jTextFieldNama = new JTextField();
-        jTextFieldUmur = new JTextField();
-
-        JPanel jPnlBut = new JPanel();
-        jPnlBut.setLayout(new BorderLayout());
-        jPnlBut.setMaximumSize(new Dimension((int) (screen.width * 0.65), (int) (screen.height * 0.08)));
-        jPnlBut.setBackground(new Color(234, 239, 143));
-
-        btSubmit = new JButton("Submit");
-        btSubmit.setPreferredSize(new Dimension(200, 0));
-        btSubmit.addActionListener(e -> {
-            try {
-                DataMahasiswa dm = new DataMahasiswa();
-                dm.setNim(jTextFieldNim.getText());
-                dm.setNama(jTextFieldNama.getText());
-                dm.setUmur(Integer.parseInt(jTextFieldUmur.getText()));
-
-                if (isEditMode) {
-                    mDB.updateData(dm);
-                    JOptionPane.showMessageDialog(null, "Data Berhasil Diupdate!");
-                } else {
-                    mDB.insertData(dm);
-                    JOptionPane.showMessageDialog(null, "Data Berhasil Disimpan!");
-                }
-                prepareInsertMode();
-                refreshTableData();
-                cardLayout.show(panelCenter, "View");
-            } catch (Exception ex) {
-                JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
-            }
-        });
-
-        jPnlBut.add(btSubmit, BorderLayout.EAST);
-
-        jTextFieldNim.setMinimumSize(new Dimension(50, 20));
-        jTextFieldNim.setMaximumSize(new Dimension(200, 48));
-        jTextFieldNim.setFont(new Font("Arial", Font.PLAIN, 25));
-        jTextFieldNama.setMinimumSize(new Dimension(50, 20));
-        jTextFieldNama.setMaximumSize(new Dimension(500, 48));
-        jTextFieldNama.setFont(new Font("Arial", Font.PLAIN, 25));
-        jTextFieldUmur.setMinimumSize(new Dimension(50, 20));
-        jTextFieldUmur.setMaximumSize(new Dimension(100, 48));
-        jTextFieldUmur.setFont(new Font("Arial", Font.PLAIN, 25));
-
-        jLabelNim.setFont(fntLabel);
-        jLabelNama.setFont(fntLabel);
-        jLabelUmur.setFont(fntLabel);
-        jLabelNim.setAlignmentX(Component.LEFT_ALIGNMENT);
-        jLabelNama.setAlignmentX(Component.LEFT_ALIGNMENT);
-        jLabelUmur.setAlignmentX(Component.LEFT_ALIGNMENT);
-        jTextFieldNim.setAlignmentX(Component.LEFT_ALIGNMENT);
-        jTextFieldNama.setAlignmentX(Component.LEFT_ALIGNMENT);
-        jTextFieldUmur.setAlignmentX(Component.LEFT_ALIGNMENT);
-
-        jPanel.add(labelJudulForm);
-        jPanel.add(Box.createVerticalStrut(20));
-        jPanel.add(jLabelNim);
-        jPanel.add(jTextFieldNim);
-        jPanel.add(Box.createVerticalStrut(20));
-        jPanel.add(jLabelNama);
-        jPanel.add(jTextFieldNama);
-        jPanel.add(Box.createVerticalStrut(20));
-        jPanel.add(jLabelUmur);
-        jPanel.add(jTextFieldUmur);
-        jPanel.add(Box.createVerticalStrut(20));
-        jPanel.add(jPnlBut);
-
+        jPanel.add(labelTitle, BorderLayout.NORTH);
+        jPanel.add(labelInfo, BorderLayout.CENTER);
         return jPanel;
     }
 
-    private JPanel viewCenter(Dimension screen) {
+    private JPanel loansCenter(Dimension screen) {
         JPanel jPanel = new JPanel();
         jPanel.setBackground(new Color(242, 239, 232));
         jPanel.setLayout(new BorderLayout());
+        jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 
-        String[] kolom = { "NIM", "Nama", "Umur", "Aksi" };
-        dmTableModel = new DefaultTableModel(kolom, 0) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return column == 3;
-            }
-        };
+        JLabel labelTitle = new JLabel("LOANS MANAGEMENT", SwingConstants.CENTER);
+        labelTitle.setFont(new Font("Arial", Font.BOLD, 36));
+        labelTitle.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        JTable jTable = new JTable(dmTableModel);
+        JLabel labelInfo = new JLabel("This is the Loans Management page. You can manage book loans and returns here.",
+                SwingConstants.CENTER);
+        labelInfo.setFont(new Font("Arial", Font.PLAIN, 20));
+        labelInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-        jTable.setRowHeight(50);
-        jTable.setFont(new Font("Arial", Font.PLAIN, 18));
-
-        JTableHeader jtHeader = jTable.getTableHeader();
-        jtHeader.setFont(new Font("Arial", Font.BOLD, 20));
-        jtHeader.setPreferredSize(new Dimension(0, (int) (screen.height * 0.04)));
-
-        jTable.getColumnModel().getColumn(3).setPreferredWidth(200);
-        jTable.getColumnModel().getColumn(3).setCellRenderer(new ActionPanelRenderer());
-        jTable.getColumnModel().getColumn(3).setCellEditor(new ActionPanelEditor());
-
-        JScrollPane scrollPane = new JScrollPane(jTable);
-        jPanel.add(scrollPane);
+        jPanel.add(labelTitle, BorderLayout.NORTH);
+        jPanel.add(labelInfo, BorderLayout.CENTER);
         return jPanel;
     }
 
-    private void refreshTableData() {
-        dmTableModel.setRowCount(0);
-        ArrayList<DataMahasiswa> listDM = mDB.getData();
-        for (DataMahasiswa dm : listDM) {
-            Object[] row = { dm.getNim(), dm.getNama(), dm.getUmur(), "" };
-            dmTableModel.addRow(row);
-        }
-    }
+    private JPanel visitorsCenter(Dimension screen) {
+        JPanel jPanel = new JPanel();
+        jPanel.setBackground(new Color(230, 240, 250));
+        jPanel.setLayout(new BorderLayout());
+        jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
 
-    private void prepareEditMode(String nim, String nama, String umur) {
-        isEditMode = true;
-        labelJudulForm.setText("EDIT DATA MAHASISWA");
-        btSubmit.setText("Update Data");
-        jTextFieldNim.setText(nim);
-        jTextFieldNim.setEditable(false);
-        jTextFieldNama.setText(nama);
-        jTextFieldUmur.setText(umur);
-    }
+        JLabel labelTitle = new JLabel("VISITORS MANAGEMENT", SwingConstants.CENTER);
+        labelTitle.setFont(new Font("Arial", Font.BOLD, 36));
+        labelTitle.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-    private void prepareInsertMode() {
-        isEditMode = false;
-        labelJudulForm.setText("INPUT DATA MAHASISWA");
-        btSubmit.setText("Submit");
-        jTextFieldNim.setText("");
-        jTextFieldNim.setEditable(true);
-        jTextFieldNama.setText("");
-        jTextFieldUmur.setText("");
-    }
+        JLabel labelInfo = new JLabel("This is the Visitors Management page. You can manage library visitors here.",
+                SwingConstants.CENTER);
+        labelInfo.setFont(new Font("Arial", Font.PLAIN, 20));
+        labelInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
-    class ActionPanelRenderer extends JPanel implements TableCellRenderer {
-        JButton btnEdit = new JButton("Update");
-        JButton btnDelete = new JButton("Delete");
-
-        public ActionPanelRenderer() {
-            setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-            add(btnEdit);
-            add(btnDelete);
-        }
-
-        @Override
-        public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
-                int row, int column) {
-            return this;
-        }
-    }
-
-    class ActionPanelEditor extends AbstractCellEditor implements TableCellEditor {
-        JPanel panel = new JPanel();
-        JButton btnEdit = new JButton("Update");
-        JButton btnDelete = new JButton("Delete");
-        JTable table;
-        int row;
-
-        public ActionPanelEditor() {
-            panel.setLayout(new FlowLayout(FlowLayout.CENTER, 5, 5));
-            btnEdit.addActionListener(e -> {
-                prepareEditMode(
-                        table.getValueAt(row, 0).toString(),
-                        table.getValueAt(row, 1).toString(),
-                        table.getValueAt(row, 2).toString());
-                cardLayout.show(panelCenter, "Input");
-                fireEditingStopped();
-            });
-
-            btnDelete.addActionListener(e -> {
-                int confirm = JOptionPane.showConfirmDialog(panel, "Hapus data NIM: " + table.getValueAt(row, 0) + "?");
-                if (confirm == JOptionPane.YES_OPTION) {
-                    DataMahasiswa dm = new DataMahasiswa();
-                    dm.setNim(table.getValueAt(row, 0).toString());
-                    mDB.deleteData(dm);
-                    refreshTableData();
-                }
-                fireEditingStopped();
-            });
-            
-            panel.add(btnEdit);
-            panel.add(btnDelete);
-        }
-
-        @Override
-        public Component getTableCellEditorComponent(JTable table, Object value, boolean isSelected, int row,
-                int column) {
-            this.table = table;
-            this.row = row;
-            return panel;
-        }
-
-        @Override
-        public Object getCellEditorValue() {
-            return "";
-        }
+        jPanel.add(labelTitle, BorderLayout.NORTH);
+        jPanel.add(labelInfo, BorderLayout.CENTER);
+        return jPanel;
     }
 
     public void InterfaceUtama() {
-        JFrame jF = new JFrame("Master Data Siswa");
+        JFrame jF = new JFrame("Library Management System");
         Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
         jF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         jF.setSize(screen.width, screen.height);
@@ -272,15 +119,16 @@ public class InterfaceProject {
         ((JComponent) jF.getContentPane()).setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         jF.add(centerFill(screen), BorderLayout.CENTER);
-        jF.add(tampilanSampingButton(screen), BorderLayout.WEST);
+        jF.add(tampilanAtasButton(screen), BorderLayout.NORTH);
         jF.setVisible(true);
     }
 
     private JPanel centerFill(Dimension screen) {
         cardLayout = new CardLayout();
         panelCenter = new JPanel(cardLayout);
-        panelCenter.add(inputCenter(screen), "Input");
-        panelCenter.add(viewCenter(screen), "View");
+        panelCenter.add(booksCenter(screen), "Books");
+        panelCenter.add(loansCenter(screen), "Loans");
+        panelCenter.add(visitorsCenter(screen), "Visitors");
         return panelCenter;
     }
 }
