@@ -1,0 +1,134 @@
+[
+    {
+        "type": "header",
+        "version": "5.2.1",
+        "comment": "Export to JSON plugin for PHPMyAdmin"
+    },
+    {
+        "type": "database",
+        "name": "pbo_uas"
+    },
+    {
+        "type": "table",
+        "name": "books",
+        "database": "pbo_uas",
+        "data": [
+            {
+                "id": "1",
+                "judul": "Laskar Pelangi",
+                "penulis": "Andrea Hirata",
+                "penerbit": "Bentang Pustaka",
+                "stok": "5"
+            },
+            {
+                "id": "2",
+                "judul": "Bumi",
+                "penulis": "Tere Liye",
+                "penerbit": "Gramedia",
+                "stok": "3"
+            },
+            {
+                "id": "3",
+                "judul": "Filosofi Teras",
+                "penulis": "Henry Manampiring",
+                "penerbit": "Kompas",
+                "stok": "10"
+            },
+            {
+                "id": "4",
+                "judul": "Algoritma Pemrograman",
+                "penulis": "Sianipar",
+                "penerbit": "Andi Offset",
+                "stok": "2"
+            },
+            {
+                "id": "5",
+                "judul": "Negeri 5 Menara",
+                "penulis": "Ahmad Fuadi",
+                "penerbit": "Gramedia",
+                "stok": "4"
+            }
+        ]
+    },
+    {
+        "type": "table",
+        "name": "loans",
+        "database": "pbo_uas",
+        "data": [
+            {
+                "id": "1",
+                "nama_peminjam": "Rian Perkasa",
+                "book_id": "1",
+                "tanggal_pinjam": "2023-10-01",
+                "tanggal_kembali": null,
+                "status": "dipinjam"
+            },
+            {
+                "id": "2",
+                "nama_peminjam": "Dewi Sartika",
+                "book_id": "2",
+                "tanggal_pinjam": "2023-10-05",
+                "tanggal_kembali": "2023-10-12",
+                "status": "kembali"
+            },
+            {
+                "id": "3",
+                "nama_peminjam": "Andi Wijaya",
+                "book_id": "3",
+                "tanggal_pinjam": "2023-10-10",
+                "tanggal_kembali": null,
+                "status": "dipinjam"
+            }
+        ]
+    },
+    {
+        "type": "table",
+        "name": "users",
+        "database": "pbo_uas",
+        "data": [
+            {
+                "id": "1",
+                "username": "admin",
+                "password": "admin123",
+                "nama_lengkap": "Budi Setiawan"
+            },
+            {
+                "id": "2",
+                "username": "petugas2",
+                "password": "rahasia",
+                "nama_lengkap": "Siti Aminah"
+            }
+        ]
+    },
+    {
+        "type": "table",
+        "name": "visitors",
+        "database": "pbo_uas",
+        "data": [
+            {
+                "id": "1",
+                "nama_pengunjung": "Rian Perkasa",
+                "tujuan": "Mencari referensi skripsi",
+                "waktu_datang": "2026-01-15 08:24:16"
+            },
+            {
+                "id": "2",
+                "nama_pengunjung": "Dewi Sartika",
+                "tujuan": "Membaca novel santai",
+                "waktu_datang": "2026-01-15 08:24:16"
+            },
+            {
+                "id": "3",
+                "nama_pengunjung": "Bambang Permadi",
+                "tujuan": "Mengerjakan tugas kelompok",
+                "waktu_datang": "2026-01-15 08:24:16"
+            },
+            {
+                "id": "4",
+                "nama_pengunjung": "Lestari Wahyuni",
+                "tujuan": "Mengembalikan buku",
+                "waktu_datang": "2026-01-15 08:24:16"
+            }
+        ]
+    }
+]
