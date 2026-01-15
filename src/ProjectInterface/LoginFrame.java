@@ -8,16 +8,21 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import javax.swing.SwingConstants;
 
+import MaintainDataPackage.MaintainDatabase;
+
 public class LoginFrame extends JFrame {
     private final JTextField usernameField;
     private final JPasswordField passwordField;
+    private final MaintainDatabase mDB;
 
     public LoginFrame() {
+        mDB = new MaintainDatabase();
         setTitle("Dummy Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 250);
@@ -53,8 +58,23 @@ public class LoginFrame extends JFrame {
     }
 
     private void handleLogin() {
-        LibraryFrame libraryFrame = new LibraryFrame();
-        libraryFrame.showFrame();
-        dispose();
+        String username = usernameField.getText().trim();
+        String password = new String(passwordField.getPassword());
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Username dan Password tidak boleh kosong!",
+                    "Login Gagal", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+
+        if (mDB.authenticateUser(username, password)) {
+            LibraryFrame libraryFrame = new LibraryFrame();
+            libraryFrame.showFrame();
+            dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Username atau Password salah!",
+                    "Login Gagal", JOptionPane.ERROR_MESSAGE);
+            passwordField.setText("");
+        }
     }
 }

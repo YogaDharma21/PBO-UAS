@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 import DataModel.DataBooks;
 import DataModel.DataLoans;
+import DataModel.DataUser;
 import DataModel.DataVisitors;
 import DatabaseProcess.Koneksi;
 
@@ -15,9 +16,8 @@ public class MaintainDatabase {
     public void insertBook(DataBooks book) {
         String rawQuery = "INSERT INTO `books`(`judul`, `penulis`, `penerbit`, `stok`) VALUES (?,?,?,?)";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setString(1, book.getJudul());
             pre.setString(2, book.getPenulis());
             pre.setString(3, book.getPenerbit());
@@ -33,9 +33,8 @@ public class MaintainDatabase {
     public void updateBook(DataBooks book) {
         String rawQuery = "UPDATE `books` SET `judul`=?, `penulis`=?, `penerbit`=?, `stok`=? WHERE `id`=?";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setString(1, book.getJudul());
             pre.setString(2, book.getPenulis());
             pre.setString(3, book.getPenerbit());
@@ -52,9 +51,8 @@ public class MaintainDatabase {
     public void deleteBook(DataBooks book) {
         String rawQuery = "DELETE FROM `books` WHERE `id`=?";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setInt(1, book.getId());
             pre.executeUpdate();
             System.out.println("Proses Delete Data Buku Berhasil");
@@ -67,10 +65,9 @@ public class MaintainDatabase {
     public ArrayList<DataBooks> getBooks() {
         String QueryString = "SELECT `id`, `judul`, `penulis`, `penerbit`, `stok` FROM `books` WHERE 1";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(QueryString);
-            ResultSet resultset = pre.executeQuery();
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(QueryString);
+                ResultSet resultset = pre.executeQuery();) {
             ArrayList<DataBooks> lsBooks = new ArrayList<>();
             while (resultset.next()) {
                 DataBooks temp = new DataBooks();
@@ -91,9 +88,8 @@ public class MaintainDatabase {
     public void insertLoan(DataLoans loan) {
         String rawQuery = "INSERT INTO `loans`(`nama_peminjam`, `book_id`, `tanggal_pinjam`, `tanggal_kembali`, `status`) VALUES (?,?,?,?,?)";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setString(1, loan.getNamaPeminjam());
             pre.setInt(2, loan.getBookId());
             pre.setDate(3, loan.getTanggalPinjam());
@@ -114,9 +110,8 @@ public class MaintainDatabase {
     public void updateLoan(DataLoans loan) {
         String rawQuery = "UPDATE `loans` SET `nama_peminjam`=?, `book_id`=?, `tanggal_pinjam`=?, `tanggal_kembali`=?, `status`=? WHERE `id`=?";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setString(1, loan.getNamaPeminjam());
             pre.setInt(2, loan.getBookId());
             pre.setDate(3, loan.getTanggalPinjam());
@@ -138,9 +133,8 @@ public class MaintainDatabase {
     public void deleteLoan(DataLoans loan) {
         String rawQuery = "DELETE FROM `loans` WHERE `id`=?";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setInt(1, loan.getId());
             pre.executeUpdate();
             System.out.println("Proses Delete Data Peminjaman Berhasil");
@@ -153,10 +147,9 @@ public class MaintainDatabase {
     public ArrayList<DataLoans> getLoans() {
         String QueryString = "SELECT `id`, `nama_peminjam`, `book_id`, `tanggal_pinjam`, `tanggal_kembali`, `status` FROM `loans` WHERE 1";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(QueryString);
-            ResultSet resultset = pre.executeQuery();
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(QueryString);
+                ResultSet resultset = pre.executeQuery();) {
             ArrayList<DataLoans> lsLoans = new ArrayList<>();
             while (resultset.next()) {
                 DataLoans temp = new DataLoans();
@@ -178,9 +171,8 @@ public class MaintainDatabase {
     public void insertVisitor(DataVisitors visitor) {
         String rawQuery = "INSERT INTO `visitors`(`nama_pengunjung`, `tujuan`) VALUES (?,?)";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setString(1, visitor.getNamaPengunjung());
             pre.setString(2, visitor.getTujuan());
             pre.executeUpdate();
@@ -194,9 +186,8 @@ public class MaintainDatabase {
     public void updateVisitor(DataVisitors visitor) {
         String rawQuery = "UPDATE `visitors` SET `nama_pengunjung`=?, `tujuan`=? WHERE `id`=?";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setString(1, visitor.getNamaPengunjung());
             pre.setString(2, visitor.getTujuan());
             pre.setInt(3, visitor.getId());
@@ -211,9 +202,8 @@ public class MaintainDatabase {
     public void deleteVisitor(DataVisitors visitor) {
         String rawQuery = "DELETE FROM `visitors` WHERE `id`=?";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(rawQuery);
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(rawQuery);) {
             pre.setInt(1, visitor.getId());
             pre.executeUpdate();
             System.out.println("Proses Delete Data Pengunjung Berhasil");
@@ -226,10 +216,9 @@ public class MaintainDatabase {
     public ArrayList<DataVisitors> getVisitors() {
         String QueryString = "SELECT `id`, `nama_pengunjung`, `tujuan`, `waktu_datang` FROM `visitors` WHERE 1";
         try (
-            Connection conn = Koneksi.getKoneksi();
-            PreparedStatement pre = conn.prepareStatement(QueryString);
-            ResultSet resultset = pre.executeQuery();
-        ) {
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(QueryString);
+                ResultSet resultset = pre.executeQuery();) {
             ArrayList<DataVisitors> lsVisitors = new ArrayList<>();
             while (resultset.next()) {
                 DataVisitors temp = new DataVisitors();
@@ -244,5 +233,26 @@ public class MaintainDatabase {
             System.out.println("Error: " + e.getMessage().toString());
         }
         return new ArrayList<DataVisitors>();
+    }
+
+    public boolean authenticateUser(String username, String password) {
+        String QueryString = "SELECT `id`, `username`, `password`, `nama_lengkap` FROM `users` WHERE `username`=? AND `password`=?";
+        try (
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(QueryString);) {
+            pre.setString(1, username);
+            pre.setString(2, password);
+            ResultSet resultset = pre.executeQuery();
+            if (resultset.next()) {
+                System.out.println("Login Berhasil untuk user: " + username);
+                return true;
+            } else {
+                System.out.println("Login Gagal: Username atau Password salah");
+                return false;
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage().toString());
+            return false;
+        }
     }
 }
