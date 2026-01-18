@@ -58,6 +58,7 @@ public class DataLoans {
         this.status = status;
     }
 
+    @Override
     public String toString() {
         return "ID: " + id + "; Nama Peminjam: " + namaPeminjam + "; Book ID: " + bookId +
                 "; Tanggal Pinjam: " + tanggalPinjam + "; Tanggal Kembali: " + tanggalKembali +
