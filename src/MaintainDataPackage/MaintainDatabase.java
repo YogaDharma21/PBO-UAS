@@ -235,6 +235,51 @@ public class MaintainDatabase {
         return new ArrayList<DataVisitors>();
     }
 
+    public int getBooksCount() {
+        String QueryString = "SELECT COUNT(*) FROM `books`";
+        try (
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(QueryString);
+                ResultSet resultset = pre.executeQuery();) {
+            if (resultset.next()) {
+                return resultset.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage().toString());
+        }
+        return 0;
+    }
+
+    public int getLoansCount() {
+        String QueryString = "SELECT COUNT(*) FROM `loans`";
+        try (
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(QueryString);
+                ResultSet resultset = pre.executeQuery();) {
+            if (resultset.next()) {
+                return resultset.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage().toString());
+        }
+        return 0;
+    }
+
+    public int getVisitorsCount() {
+        String QueryString = "SELECT COUNT(*) FROM `visitors`";
+        try (
+                Connection conn = Koneksi.getKoneksi();
+                PreparedStatement pre = conn.prepareStatement(QueryString);
+                ResultSet resultset = pre.executeQuery();) {
+            if (resultset.next()) {
+                return resultset.getInt(1);
+            }
+        } catch (Exception e) {
+            System.out.println("Error: " + e.getMessage().toString());
+        }
+        return 0;
+    }
+
     public boolean authenticateUser(String username, String password) {
         String QueryString = "SELECT `id`, `username`, `password`, `nama_lengkap` FROM `users` WHERE `username`=? AND `password`=?";
         try (
