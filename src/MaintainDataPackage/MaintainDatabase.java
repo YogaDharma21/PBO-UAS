@@ -14,7 +14,7 @@ import DatabaseProcess.Koneksi;
 
 public class MaintainDatabase {
     public void insertBook(DataBooks book) {
-        String rawQuery = "INSERT INTO `books`(`judul`, `penulis`, `penerbit`, `stok`) VALUES (?,?,?,?)";
+        String rawQuery = "INSERT INTO `books` (`judul`, `penulis`, `penerbit`, `stok`) VALUES (?,?,?,?)";
         try (
                 Connection conn = Koneksi.getKoneksi();
                 PreparedStatement pre = conn.prepareStatement(rawQuery);) {
