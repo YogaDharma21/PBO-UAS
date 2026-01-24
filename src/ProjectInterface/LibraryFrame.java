@@ -1,12 +1,22 @@
 package ProjectInterface;
 
+import DataModel.DataBooks;
+import MaintainDataPackage.MaintainDatabase;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 
 public class LibraryFrame {
     private CardLayout cardLayout;
     private JPanel panelCenter;
+    private final MaintainDatabase db;
+
+    public LibraryFrame() {
+        db = new MaintainDatabase();
+    }
+
 
     private JPanel createTopButtonPanel(Dimension screen) {
         JPanel jPanel = new JPanel();
@@ -51,23 +61,164 @@ public class LibraryFrame {
     }
 
     private JPanel createBooksPanel(Dimension screen) {
-        JPanel jPanel = new JPanel();
-        jPanel.setBackground(new Color(234, 239, 143));
-        jPanel.setLayout(new BorderLayout());
-        jPanel.setBorder(BorderFactory.createEmptyBorder(50, 50, 50, 50));
+        MaintainDatabase db = new MaintainDatabase();
+        int[] selectedBookId = {-1}; 
+        
+        String[] columnNames = {"ID", "Judul", "Penulis", "Penerbit", "Stok"};
+        DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0);
+        JTable tableBuku = new JTable(tableModel);
+        Font inputFont = new Font("Arial", Font.PLAIN, 18);
+        
+        JTextField txtJudul = new JTextField();
+        JTextField txtPenulis = new JTextField();
+        JTextField txtPenerbit = new JTextField();
+        JTextField txtStok = new JTextField();
+
+        Dimension fieldSize = new Dimension(0, 35);
+        txtJudul.setPreferredSize(fieldSize);
+        txtPenulis.setPreferredSize(fieldSize);
+        txtPenerbit.setPreferredSize(fieldSize);
+        txtStok.setPreferredSize(fieldSize);
+        
+        txtJudul.setFont(inputFont);
+        txtPenulis.setFont(inputFont);
+        txtPenerbit.setFont(inputFont);
+        txtStok.setFont(inputFont);
+
+        JPanel mainPanel = new JPanel(new BorderLayout(15, 15));
+        mainPanel.setBackground(Color.WHITE);
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
 
         JLabel labelTitle = new JLabel("BOOKS MANAGEMENT", SwingConstants.CENTER);
-        labelTitle.setFont(new Font("Arial", Font.BOLD, 36));
-        labelTitle.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        labelTitle.setFont(new Font("Arial", Font.BOLD, 32));
+        mainPanel.add(labelTitle, BorderLayout.NORTH);
 
-        JLabel labelInfo = new JLabel("This is the Books Management page. You can input and manage books here.",
-                SwingConstants.CENTER);
-        labelInfo.setFont(new Font("Arial", Font.PLAIN, 20));
-        labelInfo.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        formPanel.setBackground(Color.WHITE);
+        formPanel.setPreferredSize(new Dimension(400, 0)); 
+        formPanel.setBorder(BorderFactory.createTitledBorder(
+                BorderFactory.createLineBorder(Color.GRAY), "Input Data Buku", 0, 0, new Font("Arial", Font.BOLD, 14)));
+        
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(15, 10, 15, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
 
-        jPanel.add(labelTitle, BorderLayout.NORTH);
-        jPanel.add(labelInfo, BorderLayout.CENTER);
-        return jPanel;
+        String[] labels = {"Judul:", "Penulis:", "Penerbit:", "Stok:"};
+        JTextField[] fields = {txtJudul, txtPenulis, txtPenerbit, txtStok};
+        
+        for (int i = 0; i < labels.length; i++) {
+            gbc.gridx = 0; gbc.gridy = i;
+            gbc.weightx = 0.1;
+            JLabel lbl = new JLabel(labels[i]);
+            lbl.setFont(new Font("Arial", Font.BOLD, 16));
+            formPanel.add(lbl, gbc);
+            
+            gbc.gridx = 1;
+            gbc.weightx = 0.9;
+            formPanel.add(fields[i], gbc);
+        }
+        
+        mainPanel.add(formPanel, BorderLayout.WEST);
+
+        tableBuku.setRowHeight(30);
+        tableBuku.setFont(new Font("Arial", Font.PLAIN, 14));
+        JScrollPane scrollPane = new JScrollPane(tableBuku);
+        mainPanel.add(scrollPane, BorderLayout.CENTER);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 10));
+        buttonPanel.setBackground(Color.WHITE);
+        
+        JButton btnAdd = new JButton("Tambah");
+        JButton btnUpdate = new JButton("Update");
+        JButton btnDelete = new JButton("Hapus");
+        
+        Dimension btnSize = new Dimension(130, 40);
+        btnAdd.setPreferredSize(btnSize);
+        btnUpdate.setPreferredSize(btnSize);
+        btnDelete.setPreferredSize(btnSize);
+        
+        buttonPanel.add(btnAdd); 
+        buttonPanel.add(btnUpdate); 
+        buttonPanel.add(btnDelete);
+        mainPanel.add(buttonPanel, BorderLayout.SOUTH);
+
+        Runnable refreshTable = () -> {
+            tableModel.setRowCount(0);
+            ArrayList<DataBooks> list = db.getBooks();
+            for (DataBooks b : list) {
+                tableModel.addRow(new Object[]{b.getId(), b.getJudul(), b.getPenulis(), b.getPenerbit(), b.getStok()});
+            }
+        };
+
+        Runnable clearForm = () -> {
+            txtJudul.setText(""); txtPenulis.setText(""); 
+            txtPenerbit.setText(""); txtStok.setText("");
+            selectedBookId[0] = -1;
+        };
+
+        tableBuku.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent e) {
+                int row = tableBuku.getSelectedRow();
+                if (row != -1) {
+                    selectedBookId[0] = (int) tableModel.getValueAt(row, 0);
+                    txtJudul.setText(tableModel.getValueAt(row, 1).toString());
+                    txtPenulis.setText(tableModel.getValueAt(row, 2).toString());
+                    txtPenerbit.setText(tableModel.getValueAt(row, 3).toString());
+                    txtStok.setText(tableModel.getValueAt(row, 4).toString());
+                }
+            }
+        });
+
+        btnAdd.addActionListener(e -> {
+            try {
+                DataBooks b = new DataBooks();
+                b.setJudul(txtJudul.getText());
+                b.setPenulis(txtPenulis.getText());
+                b.setPenerbit(txtPenerbit.getText());
+                b.setStok(Integer.parseInt(txtStok.getText()));
+                
+                db.insertBook(b);
+                refreshTable.run();
+                clearForm.run();
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(mainPanel, "Input tidak valid!");
+            }
+        });
+
+        btnUpdate.addActionListener(e -> {
+            if (selectedBookId[0] != -1) {
+                try {
+                    DataBooks b = new DataBooks();
+                    b.setId(selectedBookId[0]);
+                    b.setJudul(txtJudul.getText());
+                    b.setPenulis(txtPenulis.getText());
+                    b.setPenerbit(txtPenerbit.getText());
+                    b.setStok(Integer.parseInt(txtStok.getText()));
+                    
+                    db.updateBook(b);
+                    refreshTable.run();
+                    clearForm.run();
+                } catch (Exception ex) {
+                    JOptionPane.showMessageDialog(mainPanel, "Update gagal!");
+                }
+            }
+        });
+
+        btnDelete.addActionListener(e -> {
+            if (selectedBookId[0] != -1) {
+                int confirm = JOptionPane.showConfirmDialog(mainPanel, "Yakin hapus buku ini?", "Hapus", JOptionPane.YES_NO_OPTION);
+                if (confirm == JOptionPane.YES_OPTION) {
+                    DataBooks b = new DataBooks();
+                    b.setId(selectedBookId[0]);
+                    db.deleteBook(b);
+                    refreshTable.run();
+                    clearForm.run();
+                }
+            }
+        });
+
+        refreshTable.run();
+        return mainPanel;
     }
 
     private JPanel createLoansPanel(Dimension screen) {
