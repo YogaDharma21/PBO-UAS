@@ -17,13 +17,13 @@ import javax.swing.SwingConstants;
 import MaintainDataPackage.MaintainDatabase;
 
 public class LoginFrame extends JFrame {
-    private final JTextField usernameField;
-    private final JPasswordField passwordField;
-    private final MaintainDatabase mDB;
+    private JTextField usernameField;
+    private JPasswordField passwordField;
+    private MaintainDatabase mDB;
 
     public LoginFrame() {
         mDB = new MaintainDatabase();
-        setTitle("Dummy Login");
+        setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(400, 250);
         setLocationRelativeTo(null);
