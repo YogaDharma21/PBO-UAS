@@ -5,7 +5,6 @@ import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
-import javax.swing.table.TableCellRenderer;
 import DataModel.DataVisitors;
 import MaintainDataPackage.MaintainDatabase;
 
@@ -111,7 +110,7 @@ public class LibraryFrame {
         tabelPanel.add(contentPanel, BorderLayout.CENTER);
         tabelPanel.add(labelTitle, BorderLayout.NORTH);
 
-        JPanel formPanel = new JPanel(new GridLayout(6, 2, 50, 15));
+        JPanel formPanel = new JPanel(new GridLayout(7, 2, 50, 15));
         formPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         formPanel.setBackground(new Color(230, 240, 250));
 
@@ -141,7 +140,11 @@ public class LibraryFrame {
         JButton btnSimpan = new JButton("simpan");
         JButton btUpdate=new JButton("Update");
         JButton btDelete=new JButton("Delete");
+        JButton btnReset = new JButton("Reset");
+        btnReset.setFont(new Font("Arial", Font.BOLD, 16));
         btnSimpan.setFont(new Font("Arial", Font.BOLD, 16));
+        btDelete.setFont(new Font("Arial", Font.BOLD, 16));
+        btUpdate.setFont(new Font("Arial", Font.BOLD, 16));
 
 
         formPanel.add(JlabelId);
@@ -152,10 +155,11 @@ public class LibraryFrame {
         formPanel.add(JTextFieldTujuan);
         formPanel.add(JlabelWaktuDatang);
         formPanel.add(JTextFieldWaktuDatang);
-        formPanel.add(new JLabel(""));
         formPanel.add(btnSimpan);
         formPanel.add(btDelete);
         formPanel.add(btUpdate);
+        formPanel.add(btnReset);
+
         contentPanel.add(formPanel, BorderLayout.NORTH);
 
         DefaultTableModel mdTableModel=new DefaultTableModel(DataVisitors.kolom,0);
@@ -201,6 +205,15 @@ public class LibraryFrame {
                     JTextFieldWaktuDatang.setText(waktu);
                 }
             }
+        });
+
+        btnReset.addActionListener(e -> {
+            JTextFieldId.setText("");
+            JTextFieldNama.setText("");
+            JTextFieldTujuan.setText("");
+            JTextFieldWaktuDatang.setText("");
+
+            tabelForm.clearSelection(); 
         });
 
         btnSimpan.addActionListener(e -> {
