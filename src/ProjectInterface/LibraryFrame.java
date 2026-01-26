@@ -78,8 +78,8 @@ public class LibraryFrame {
         cardLayout = new CardLayout();
         panelCenter = new JPanel(cardLayout);
         panelCenter.add(new DashboardPanel(), "Dashboard");
-        panelCenter.add(new BooksPanel(screen), "Books");
-        panelCenter.add(new LoansPanel(screen), "Loans");
+        panelCenter.add(new BooksPanel(), "Books");
+        panelCenter.add(new LoansPanel(), "Loans");
         panelCenter.add(new VisitorsPanel(screen), "Visitors");
         cardLayout.show(panelCenter, "Dashboard");
         return panelCenter;
