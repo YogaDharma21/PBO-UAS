@@ -8,6 +8,8 @@ public class DataVisitors {
     private String tujuan;
     private Timestamp waktuDatang;
 
+    public static String[] kolom={"ID","Nama Pengunjung","Tujuan","Waktu Datang",};
+
     public int getId() {
         return id;
     }

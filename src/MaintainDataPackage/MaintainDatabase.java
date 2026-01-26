@@ -14,7 +14,7 @@ import DatabaseProcess.Koneksi;
 
 public class MaintainDatabase {
     public void insertBook(DataBooks book) {
-        String rawQuery = "INSERT INTO `books`(`judul`, `penulis`, `penerbit`, `stok`) VALUES (?,?,?,?)";
+        String rawQuery = "INSERT INTO `books` (`judul`, `penulis`, `penerbit`, `stok`) VALUES (?,?,?,?)";
         try (
                 Connection conn = Koneksi.getKoneksi();
                 PreparedStatement pre = conn.prepareStatement(rawQuery);) {
@@ -289,10 +289,8 @@ public class MaintainDatabase {
             pre.setString(2, password);
             ResultSet resultset = pre.executeQuery();
             if (resultset.next()) {
-                System.out.println("Login Berhasil untuk user: " + username);
                 return true;
             } else {
-                System.out.println("Login Gagal: Username atau Password salah");
                 return false;
             }
         } catch (Exception e) {
