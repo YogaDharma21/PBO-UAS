@@ -16,12 +16,12 @@ import javax.swing.SwingConstants;
 
 import MaintainDataPackage.MaintainDatabase;
 
-public class LoginPanel extends JFrame {
+public class LoginFrame extends JFrame {
     private JTextField usernameField;
     private JPasswordField passwordField;
     private MaintainDatabase mDB;
 
-    public LoginPanel() {
+    public LoginFrame() {
         mDB = new MaintainDatabase();
         setTitle("Login");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
