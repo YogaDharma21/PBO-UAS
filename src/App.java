@@ -1,8 +1,8 @@
-import ProjectInterface.LoginPanel;
+import ProjectInterface.LoginFrame;
 
 public class App {
     public static void main(String[] args) {
-        LoginPanel loginFrame = new LoginPanel();
+        LoginFrame loginFrame = new LoginFrame();
         loginFrame.setVisible(true);
     }
 }

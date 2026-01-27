@@ -16,7 +16,7 @@ public class LoansPanel extends JPanel {
     private JComboBox<String> cbStatus;
     private JTable table;
 
-    public LoansPanel(Dimension screen) {
+    public LoansPanel() {
         super(new BorderLayout());
         db = new MaintainDatabase();
         setBackground(new Color(242, 239, 232));

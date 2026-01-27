@@ -11,7 +11,7 @@ public class BooksPanel extends JPanel {
     private final MaintainDatabase db;
     private int selectedBookId = -1;
 
-    public BooksPanel(Dimension screen) {
+    public BooksPanel() {
         super(new BorderLayout(15, 15));
         db = new MaintainDatabase();
         setBackground(Color.WHITE);
